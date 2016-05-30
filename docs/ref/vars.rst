@@ -20,18 +20,18 @@ vars.admin module
     :undoc-members:
     :show-inheritance:
 
-vars.forms module
------------------
-
-.. automodule:: vars.forms
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 vars.models module
 ------------------
 
 .. automodule:: vars.models
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+vars.serializers module
+-----------------------
+
+.. automodule:: vars.serializers
     :members:
     :undoc-members:
     :show-inheritance:

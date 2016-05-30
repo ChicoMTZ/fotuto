@@ -12,50 +12,18 @@ functional_tests.base module
     :undoc-members:
     :show-inheritance:
 
-functional_tests.test_layout_styling module
--------------------------------------------
-
-.. automodule:: functional_tests.test_layout_styling
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-functional_tests.test_login module
+functional_tests.test_admin module
 ----------------------------------
 
-.. automodule:: functional_tests.test_login
+.. automodule:: functional_tests.test_admin
     :members:
     :undoc-members:
     :show-inheritance:
 
-functional_tests.test_permissions module
-----------------------------------------
+functional_tests.test_api module
+--------------------------------
 
-.. automodule:: functional_tests.test_permissions
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-functional_tests.test_user_operator module
-------------------------------------------
-
-.. automodule:: functional_tests.test_user_operator
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-functional_tests.test_user_assistant module
---------------------------------------------
-
-.. automodule:: functional_tests.test_user_assistant
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-functional_tests.test_user_visitor module
------------------------------------------
-
-.. automodule:: functional_tests.test_user_visitor
+.. automodule:: functional_tests.test_api
     :members:
     :undoc-members:
     :show-inheritance:

@@ -1,5 +1,8 @@
-# Do not overwrite `settings.py` files, instead of rename this file to `settings_local.py` and specify your custom
+# Do not overwrite ``settings.py`` file, instead of rename this file to ``settings_local.py`` and specify your custom
 # settings in it
+
+# TODO: move ``SECRET_KEY`` and other sensible settings to here
+# TODO: change the name of this file, i.e. ``settings_local.py.template``
 
 DATABASES = {
     'default': {
@@ -11,3 +14,18 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+## To add django app as extensions, uncomment following code and replace `<YOUR_APP_NAME>` by the name of the apps you
+## want to add, note you can add several apps since `ADDITIONAL_APPS` is a tuple with the name of apps
+#
+# ADDITIONAL_APPS = ('<YOUR_APP_NAME>',)
+#
+# import os
+# import sys
+#
+# BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# sys.path.insert(0, BASE_DIR)
+# globals().update(vars(sys.modules['fotuto.settings']))
+#
+# TODO: Detect automatically
+# INSTALLED_APPS += ADDITIONAL_APPS

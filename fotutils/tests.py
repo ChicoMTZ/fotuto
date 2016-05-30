@@ -84,13 +84,13 @@ class ModelTestHelper(TestCase):
         self.assertEqual(getattr(save_obj1, main_key), obj1_dict[main_key])
         self.assertEqual(getattr(save_obj2, main_key), obj2_dict[main_key])
 
-    def check_string_representation(self, text, **kwargs):
+    def check_string_representation(self, result, **kwargs):
         """
         Checks for model string representation.
 
-        :param text: Expected text for model string representation
+        :param result: Expected text for model string representation
         :param kwargs: Params for Model creation
         """
 
         obj = self.model.objects.create(**kwargs)
-        self.assertEqual(str(obj), text)
+        self.assertEqual(str(obj), result)

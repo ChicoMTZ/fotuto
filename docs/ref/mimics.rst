@@ -20,18 +20,18 @@ mimics.admin module
     :undoc-members:
     :show-inheritance:
 
-mimics.forms module
--------------------
-
-.. automodule:: mimics.forms
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 mimics.models module
 --------------------
 
 .. automodule:: mimics.models
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+mimics.serializers module
+-------------------------
+
+.. automodule:: mimics.serializers
     :members:
     :undoc-members:
     :show-inheritance:

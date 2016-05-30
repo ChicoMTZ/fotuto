@@ -20,14 +20,6 @@ windows.admin module
     :undoc-members:
     :show-inheritance:
 
-windows.forms module
---------------------
-
-.. automodule:: windows.forms
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 windows.models module
 ---------------------
 

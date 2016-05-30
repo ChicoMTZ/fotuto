@@ -1,0 +1,22 @@
+<div id="ConfigWizardStepDevicesView" ng-controller="DeviceController">
+	<h2 class="md-title">Configuration Wizard</h2>
+	<h3>Devices</h3>
+	<fieldset>
+		<legend>Add new Device</legend>
+		<form name="DeviceAddForm" novalidate ng-submit="add(device)">
+			<!-- TODO: Implement advanced options to display/hide slug, model, description -->
+			<p><label for="id_name">Name</label><input type="text" name="name" id="id_name" ng-model="device.name"/></p>
+			<p>
+				<label for="id_address">Address</label>
+				<input type="text" name="address" id="id_address" ng-model="device.address"/>
+			</p>
+			<input type="submit" value="Add"/>
+		</form>
+	</fieldset>
+
+	<ul>
+		<li ng-repeat="device in devices">{{ device.name }}</li>
+	</ul>
+
+	<a href="#/config/steps/2">Next &raquo;</a>
+</div>

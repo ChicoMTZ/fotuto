@@ -1,0 +1,18 @@
+<!-- TODO: This file should be moved to fmenus/static/spa/components/fmenus/ but need to solve problem in karma tests
+			 because it not serving the file in that directory -->
+<md-menu ng-repeat="menu in menus | filter: { parent: null }">
+	<md-button class="{{ menu.style }} {{ menu.class_name }}"
+	           ng-href="{{ menu.link }}" ng-click="open_menu(menu.has_submenu, $mdOpenMenu, $event)">
+		<md-icon ng-hide="menu.mode == text_value">{{ menu.icon }}</md-icon>
+		<span ng-hide="menu.mode == icon_value">{{ menu.text }}</span>
+	</md-button>
+	<md-menu-content ng-show="menu.has_submenu">
+		<!-- TODO: Take aware of more than 2 level nested submenus -->
+		<md-menu-item ng-repeat="submenu in menus | filter: {parent: menu.id}">
+			<md-button class="{{ submenu.style }} {{ submenu.class_name }}" ng-href="{{ submenu.link }}">
+				<md-icon ng-hide="submenu.mode == text_value">{{ submenu.icon }}</md-icon>
+				<span ng-hide="submenu.mode == icon_value">{{ submenu.text }}</span>
+			</md-button>
+		</md-menu-item>
+	</md-menu-content>
+</md-menu>

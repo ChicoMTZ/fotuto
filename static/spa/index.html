@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html ng-app="fotuto">
+<head>
+	<title ng-bind="'Fotuto | ' + title"></title>
+	<link href="{{ STATIC_URL }}bower_components/angular-material/angular-material.css" rel="stylesheet"/>
+	<link href="{{ STATIC_URL }}bower_components/mdi/css/materialdesignicons.min.css" rel="stylesheet"/>
+	<link href="{{ STATIC_URL }}bower_components/material-design-icons/iconfont/material-icons.css" rel="stylesheet"/>
+	<link href="{{ STATIC_URL }}spa/assets/fotuto-app.css" rel="stylesheet"/>
+	{# TODO: Including a file doesn't solve the problem of duplicated or using diferent version of the files #}
+	{% for addon in addons %}
+		{% include addon|add:'/_header.html' %}
+	{% endfor %}
+</head>
+<body layout="column" ng-cloak>
+<md-toolbar layout="row" md-whiteframe="4">
+	<h1 class="md-toolbar-tools"><a href="#/dashboard">Fotuto</a></h1>
+	<!-- TODO: Fix styles here-->
+	<f-menu position="main"></f-menu>
+	<div flex></div>
+	<md-menu>
+		<md-button ng-click="$mdOpenMenu()" class="user-menu-trigger">
+			<md-icon>account_circle</md-icon>
+		</md-button>
+		<md-menu-content>
+			<md-menu-item>
+			<!-- TODO: Allow to wrap menu item in md-menu-item -->
+				<f-menu position="user"></f-menu>
+			</md-menu-item>
+			<md-menu-item>
+				<md-button>
+					<md-icon>people</md-icon>
+					Users
+				</md-button>
+			</md-menu-item>
+			<md-menu-item>
+				<md-button href="/admin/">
+					<md-icon>settings</md-icon>
+					Administration
+				</md-button>
+			</md-menu-item>
+			<md-menu-divider></md-menu-divider>
+			<md-menu-item>
+				<md-button>
+					<md-icon>tune</md-icon>
+					My Account
+				</md-button>
+			</md-menu-item>
+			<md-menu-item ng-controller="AuthController">
+				<md-button ng-click="showLogin();" class="login-trigger">
+					<md-icon>power_settings_new</md-icon>
+					Logout
+				</md-button>
+			</md-menu-item>
+		</md-menu-content>
+	</md-menu>
+</md-toolbar>
+
+<div flex layout="row">
+	<md-content flex layout-padding id="content">
+		<div ng-view></div>
+	</md-content>
+
+	<!-- Right Sidebar: Alerts -->
+	<md-sidenav md-is-locked-open="true" md-component-id="right" class="md-sidenav-right md-whiteframe-z2">
+		<md-toolbar class="md-theme-light" layout="row">
+			<h1 class="md-toolbar-tools">
+				Alerts
+			</h1>
+			<div flex></div>
+			<md-button>
+				<md-icon>notifications</md-icon>
+				<sup class="notification">2</sup>
+			</md-button>
+		</md-toolbar>
+		<md-content>
+			<md-list>
+				<md-list-item class="md-2-line">
+					<div class="md-list-item-text">
+						<h3>Alarm 1 Notification
+							<small>| 2015-04-13 @ 21:57</small>
+						</h3>
+						<p>Some alarm description</p>
+					</div>
+					<md-divider></md-divider>
+				</md-list-item>
+				<md-list-item class="md-2-line">
+					<div class="md-list-item-text">
+						<h3>Alarm 2 Notification
+							<small>| 2015-04-13 @ 21:57</small>
+						</h3>
+						<p>Some alarm description</p>
+					</div>
+					<md-divider></md-divider>
+				</md-list-item>
+			</md-list>
+		</md-content>
+	</md-sidenav>
+</div>
+<footer layout="row" layout-align="center center">
+	<strong>Powered by <a href="https://github.com/cesarcruz/fotuto">Fotuto</a></strong> -
+	Fotuto is a free open source web SCADA to monitor variables behaviour in real time -
+
+	<a href="https://github.com/cesarcruz/fotuto" title="Github" class="github"><i class="mdi mdi-github-box"></i></a>
+	<a href="https://www.facebook.com/fotutoscada" title="Facebook" class="facebook"><i class="mdi mdi-facebook-box"></i></a>
+	<a href="https://twitter.com/fotuto_scada" title="Twitter" class="twitter"><i class="mdi mdi-twitter-box"></i></a>
+	<a href="mailto:fotutoscada@gmail.com" title="Email" class="email"><i class="mdi mdi-email"></i></a>
+</footer>
+
+<script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-route/angular-route.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-cookies/angular-cookies.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-aria/angular-aria.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-animate/angular-animate.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-material/angular-material.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}bower_components/angular-material-icons/angular-material-icons.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}bower_components/d3/d3.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}spa/app/fotuto-app.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}spa/shared/fotuto.filters.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}spa/components/auth/controller.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}spa/components/config-wizard/controller.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}spa/components/dashboard/controller.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}spa/components/mimics/mimics.directives.js"></script>
+<!-- TODO: include footers and headers from all apps and document it-->
+{% include 'fmenus/_footer.html' %}
+{# TODO: Including a file doesn't solve the problem of duplicated assets or using diferent version of the files #}
+{% for addon in addons %}
+	{% include addon|add:'/_footer.html' %}
+{% endfor %}
+</body>
+</html>

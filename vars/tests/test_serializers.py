@@ -3,7 +3,7 @@ from unittest import TestCase
 from rest_framework.test import APIRequestFactory
 
 from vars.models import Device, Var
-from vars.serializers import DeviceSerializer, VarSerializer
+from vars.serializers import DeviceSerializer, VarSerializer, DevicePostSerializer
 
 
 class DeviceSerializerTestCase(TestCase):
@@ -15,7 +15,7 @@ class DeviceSerializerTestCase(TestCase):
         Tests that DeviceSerializer.validate() adds a slugged
         version of the name attribute to the data
         """
-        serializer = DeviceSerializer()
+        serializer = DevicePostSerializer()
         data = serializer.validate({'name': 'A Device'})
         self.assertEqual(data, {
             'name': 'A Device',
@@ -23,7 +23,7 @@ class DeviceSerializerTestCase(TestCase):
         })
 
     def test_get_links(self):
-        serializer = DeviceSerializer(
+        serializer = DevicePostSerializer(
             data={'name': "Alarm Controller", 'slug': 'alarm-controller', 'address': '0005'},
             context={'request': self.factory.get('/api/devices/')}
         )

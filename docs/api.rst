@@ -234,6 +234,7 @@ Example response
        "window": 1,
        "x": 0,
        "y": 0,
+       "graphic": "<svg><circle rx=\"5\" /></svg>",
        "links": {
            "self": "http://server/api/mimics/1/",
            "window": "http://server/api/windows/1/",
@@ -254,6 +255,7 @@ Example Request
        "name": "Front Door Sensor",
        "vars": [1,2],
        "window": 1,
+       "graphic": "<svg><circle rx=\"5\" /></svg>",
        "x": 0,
        "y": 0
    }
@@ -267,6 +269,7 @@ Example Response
        "name": "Front Door Sensor",
        "vars": [1,2],
        "window": 1,
+       "graphic": "<svg><circle rx=\"5\" /></svg>",
        "x": 0,
        "y": 0,
        "links": {

@@ -1,5 +1,6 @@
+/uploads
 *.pyc
-db.sqlite3
+*.sqlite3
 static/bower_components/
 _build
 settings_local.py

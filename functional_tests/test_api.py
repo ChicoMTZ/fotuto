@@ -1,13 +1,15 @@
 import json
+from unittest import TestCase
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.core.urlresolvers import resolve
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
 
-from mimics.models import Mimic
+from fotuto.urls import api_root
+from mimics.models import Mimic, Rule
 from vars.models import Device, Var
 from windows.models import Window
 
@@ -18,6 +20,22 @@ from windows.models import Window
 # TODO: Refactor Api Tests classes
 
 User = get_user_model()
+
+
+class APIRootURLTestCase(TestCase):
+    def test_api_root_return_correct_urls(self):
+        factory = APIRequestFactory()
+        user = User.objects.create_user(username='maximo')
+        request = factory.get('/api/groups/', )
+        force_authenticate(request, user=user)
+        response = api_root(request=request)
+        expected_json = {
+            'windows': 'http://testserver/api/windows/',
+            'devices': 'http://testserver/api/devices/',
+            'users': 'http://testserver/api/users/',
+            'menus': 'http://testserver/api/menus/',
+        }
+        self.assertDictEqual(response.data, expected_json)
 
 
 class APIAuthentication(APITestCase):
@@ -46,18 +64,6 @@ class APIAuthentication(APITestCase):
         header = {'HTTP_AUTHORIZATION': 'Token {}'.format(self.token)}
         response = self.client.get('/api/', {}, **header)
         self.assertEqual(response.status_code, 200, "REST token-auth failed")
-
-    def test_root_endpoints(self):
-        """Tests for default root endpoints"""
-        header = {'HTTP_AUTHORIZATION': 'Token {}'.format(self.token)}
-        response = self.client.get('/api/', {}, **header)
-        # TODO: This also should display devices
-        default_endpoints = {
-            "windows": "http://testserver/api/windows/",
-            "devices": "http://testserver/api/devices/",
-            "users": "http://testserver/api/users/",
-        }
-        self.assertDictEqual(response.data, default_endpoints)
 
 
 class UserAPITestCase(APITestCase):
@@ -169,6 +175,8 @@ class GroupAPITestCase(APITestCase):
 
 
 class WindowAPITestCase(APITestCase):
+    maxDiff = None
+
     def setUp(self):
         self.window_1_data = {
             'title': "Some Windows",
@@ -232,6 +240,8 @@ class WindowAPITestCase(APITestCase):
         windows_data = self.window_1_data.copy()
         windows_data.update({
             'id': self.window_1.pk,
+            'active': True,
+            'background_img': None,
             'mimics': [
                 'http://testserver/api/mimics/%s/' % self.mimic_1.pk,
                 'http://testserver/api/mimics/%s/' % self.mimic_2.pk,
@@ -246,6 +256,8 @@ class WindowAPITestCase(APITestCase):
 
 
 class DeviceAPITestCase(APITestCase):
+    maxDiff = None
+
     def setUp(self):
         self.device_1_data = {
             'name': "Some Device 1",
@@ -304,12 +316,11 @@ class DeviceAPITestCase(APITestCase):
         device_1_url_path = '/api/devices/%s/' % self.device_1.pk
         response = self.client.get(device_1_url_path, **self.auth_header)
         self.assertEqual(response.status_code, status.HTTP_200_OK, response.data)
+        vars_response = self.client.get('/api/vars/?device=%s' % self.device_1.pk, **self.auth_header)
         device_data = self.device_1_data.copy()
         device_data.update({
             'id': self.device_1.pk,
-            'vars': [
-                'http://testserver/api/vars/%s/' % var_pk for var_pk in self.device_1.vars.values_list('pk', flat=True)
-                ],
+            'vars': vars_response.data['results'],
             'links': {
                 'self': 'http://testserver%s' % device_1_url_path,
                 'vars': 'http://testserver/api/vars/?device={}'.format(self.device_1.pk)
@@ -417,7 +428,9 @@ class VarAPITestCase(APITestCase):
         # Find vars by a mimic
         window = Window.objects.create(title="Security 2", slug="security-2")
         mimic = Mimic.objects.create(name="Sensor Door 1", window=window)
+        # TODO: Use a better example
         mimic.vars.add(self.var_door_1_state)
+
         filter_by_mimic_url_path = '/api/vars/?mimic=%s' % mimic.pk
         response = self.client.get(filter_by_mimic_url_path, **self.auth_header)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -491,16 +504,17 @@ class MimicAPITestCase(APITestCase):
             'y': 0,
         }
         self.mimic_alarm_spotlight = Mimic.objects.create(**self.mimic_alarm_spotlight_data)
+        # TODO: Use a better example
         self.mimic_alarm_spotlight.vars.add(self.var_alarm_state)
 
         self.mimic_sensor_front_door_data = {
             'name': "Front Door Sensor",
             'window': self.window_security,
+            'graphic': "",
             'x': 100,
             'y': 0
         }
         self.mimic_sensor_front_door = Mimic.objects.create(**self.mimic_sensor_front_door_data)
-        self.mimic_sensor_front_door.vars.add(self.var_door_state)
         self.mimic_sensor_front_door.vars.add(self.var_sensor_door_comm)
 
         self.user = User.objects.create_user('user', 'user@mail.com', '123')
@@ -524,7 +538,6 @@ class MimicAPITestCase(APITestCase):
         mimic_data = {
             'name': "Alarm Controller",
             'window': self.window_security.pk,
-            'vars': [],
             'x': 0,
             'y': 1
         }
@@ -548,6 +561,7 @@ class MimicAPITestCase(APITestCase):
         self.assertEqual(response.status_code, 201, response.data)
         created_mimic = Mimic.objects.get(pk=response.data['id'])
         mimic_data.update({'id': created_mimic.pk})
+        del mimic_data['vars']
         self.assertDictContainsSubset(mimic_data, response.data)
 
     def test_get_mimic_return_correct_data(self):
@@ -563,14 +577,19 @@ class MimicAPITestCase(APITestCase):
                 'self': 'http://testserver%s' % mimic_sensor_front_door_url_path,
                 'window': 'http://testserver/api/windows/%s/' % self.mimic_sensor_front_door.window.pk,
                 'vars': 'http://testserver/api/vars/?mimic=%s' % self.mimic_sensor_front_door.pk,
-            }
+                'rules': 'http://testserver/api/rules/?mimic=%s' % self.mimic_sensor_front_door.pk,
+            },
+            'rules': [],  # Mimics should display var_rules data
+            'description': "",
+            'graphic_type': "svg",
+            'height': 210,
+            'width': 160,
         })
         # Mimics should display vars data
         mimic_vars_response = self.client.get(
             'http://testserver/api/vars/?mimic=%s' % self.mimic_sensor_front_door.pk, **self.auth_header
         )
         mimic_data['vars'] = json.loads(json.dumps(mimic_vars_response.data['results']))
-
         self.assertDictEqual(mimic_data, response.data)
 
     def test_filter_routes(self):

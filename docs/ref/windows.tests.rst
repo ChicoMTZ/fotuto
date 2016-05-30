@@ -12,6 +12,14 @@ windows.tests.test_models module
     :undoc-members:
     :show-inheritance:
 
+windows.tests.test_serializers module
+-------------------------------------
+
+.. automodule:: windows.tests.test_serializers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 windows.tests.test_views module
 -------------------------------
 

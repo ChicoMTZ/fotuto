@@ -12,6 +12,14 @@ fotuto.settings module
     :undoc-members:
     :show-inheritance:
 
+fotuto.settings_local module
+----------------------------
+
+.. automodule:: fotuto.settings_local
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 fotuto.urls module
 ------------------
 

@@ -1,0 +1,46 @@
+<div id="ConfigWizardStepMimicsView" ng-controller="MimicController">
+	<h2 class="md-title">Configuration Wizard</h2>
+	<h3>Mimics</h3>
+	<fieldset>
+		<legend>Mimic Form</legend>
+		<form name="MimicForm" novalidate ng-submit="save(mimic)">
+			<!-- TODO: Implement advanced options to display/hide slug, description -->
+			<p>
+				<label for="id_scene">Scene</label>
+				<select name="scene" id="id_scene" ng-model="mimic.window">
+					<option value="{{ scene.id }}" ng-repeat="scene in scenes">{{ scene.title }}</option>
+				</select>
+			</p>
+			<p><label for="id_name">Name</label><input type="text" name="name" id="id_name" ng-model="mimic.name"/></p>
+			<p>
+				<label for="id_x">Position</label>
+				<input type="number" name="x" id="id_x" ng-model="mimic.x"/>
+				<input type="number" name="y" id="id_y" ng-model="mimic.y"/>
+			</p>
+			<p>
+				<label for="id_graphic">Graphic</label>
+				<textarea name="graphic" id="id_graphic" ng-model="mimic.graphic" rows="5" cols="30"></textarea>
+			</p>
+			<p>
+				<!-- TODO: Variable should display the device name -->
+				<label for="id_vars">Variables</label>
+				<select name="vars" id="id_vars" ng-model="mimic.vars" multiple="multiple">
+					<option value="{{ var.id }}" ng-repeat="var in vars">{{ var.name }}</option>
+				</select>
+			</p>
+			<input type="submit" value="Save"/>
+		</form>
+	</fieldset>
+
+	<ul>
+		<li ng-repeat="scene in scenes">
+			{{ scene.title }}
+			<ul>
+				<li ng-repeat="mimic in mimics | filter: {window: scene.id}">{{ mimic.name }} [<a href="#">Edit</a>]</li>
+			</ul>
+		</li>
+	</ul>
+
+	<a href="#/config/steps/3">&laquo; Back</a> |
+	<a href="#/dashboard">Finish</a>
+</div>

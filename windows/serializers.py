@@ -11,7 +11,6 @@ class WindowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Window
-        fields = ('id', 'title', 'slug', 'description', 'mimics', 'links')
         read_only_fields = ('slug',)
 
     def validate(self, data):

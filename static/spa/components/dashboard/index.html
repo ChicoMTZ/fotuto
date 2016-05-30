@@ -1,0 +1,46 @@
+<div id="DashboardView" ng-controller="DashboardController">
+	<div layout="row" layout-align="start center">
+		<h2 class="md-title">Dashboard</h2>
+		<!-- TODO: if there is one scene do not display tabs, just display the view title as a subitle at right side of the
+		Dashboard -->
+		<div flex></div>
+		<!-- TODO: Convert the updater in a directive -->
+		<div class="update">
+			<span class="updating" ng-show="updating">Updating...</span>
+			Updated: <span class="last-update">{{ last_update | date:'yyyy-MM-dd @ HH:mm:ss' }}</span>
+		</div>
+
+		<ng-include src="'/static/spa/components/fmenus/_menu_view.html'"></ng-include>
+		<!-- TODO: Add this button
+		<md-button>
+			<md-icon>edit</md-icon>
+			Edit
+		</md-button>
+		-->
+	</div>
+	<md-tabs md-dynamic-height md-border-bottom>
+		<md-tab label="{{ scene.title }}" ng-click="showScene(scene.id)" ng-repeat="scene in scenes">
+			<md-content>
+				<!--
+				TODO: Allow to open in full screen
+				TODO: Take aware of with 100% and positions in widgets
+				TODO: Fix all styles
+				TODO: Move all mimic code to the directive template
+				 -->
+				<div class="mimics md-padding" style="position:absolute;min-height: 500px">
+					<div ng-repeat="mimic in scene.mimics" class="mimic {{ mimic.slug }}"
+					     style="position:absolute;top:{{ mimic.y }}px;left:{{ mimic.x }}px">
+						<h3>{{ mimic.name }}</h3>
+						<ftt-mimic-graphic mimic="mimic"></ftt-mimic-graphic>
+						<ul>
+							<li ng-repeat="var in mimic.vars" class="{{ var.slug }}">{{ var.name }}
+								<span class="value">{{ var.value }}</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div style="min-height:550px"><img ng-src="{{ scene.background_img }}" width="100%"/></div>
+			</md-content>
+		</md-tab>
+	</md-tabs>
+</div>

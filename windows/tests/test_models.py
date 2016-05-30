@@ -1,3 +1,5 @@
+from unittest import skip
+
 from fotutils.tests import ModelTestHelper
 from windows.models import Window
 
@@ -18,6 +20,7 @@ class WindowModelTest(ModelTestHelper):
         win2 = {'title': "Second Window Title"}
         self.check_unique_field(obj1_dict=win1, obj2_dict=win2)
 
+    @skip("Enable this when create this method")
     def test_get_absolute_url(self):
         window = Window.objects.create(title="Some Window Title", slug="win")
         self.assertEqual(window.get_absolute_url(), '/windows/%s/' % (window.slug,))

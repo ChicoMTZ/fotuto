@@ -6,14 +6,18 @@ services: postgresql
 python:
   - "2.7"
 
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
+
 cache:
   directories:
     - node_modules
     - bower_components
+    - $HOME/.cache/pip
 
 addons:
-    code_climate:
-        repo_token: f1b563be21111d6d3c19acb030ecceb3b64fb32bd1dff03e89d60eca745b62c8
+  code_climate:
+    repo_token: f1b563be21111d6d3c19acb030ecceb3b64fb32bd1dff03e89d60eca745b62c8
 
 before_install:
   - pip install codecov
@@ -29,8 +33,13 @@ before_script:
   - cp fotuto/settings_local.py.example fotuto/settings_local.py
   - export DJANGO_SETTINGS_MODULE=fotuto.settings
   - python manage.py migrate --noinput
+  - npm install karma-cli karma-jasmine karma-phantomjs-launcher
+  - npm install karma-ng-html2js-preprocessor
+  - npm install protractor@2
+  - webdriver-manager update --standalone
   - npm install -g bower
   - bower install
+  - python manage.py runserver &
 
   # Configure firefox for Selenium tests
   - "export DISPLAY=:99.0"
@@ -40,6 +49,12 @@ before_script:
 
 script:
   - coverage run --source=fotuto manage.py test
+  - karma start static/spa/karma.conf.js --single-run --browsers PhantomJS
+  - ./functional_tests/spa-test.sh config python
+  - protractor static/spa/protractor.conf.js --capabilities.browserName firefox
+
+after_script:
+  - ./functional_tests/spa-test.sh clean python
 
 after_success:
   - codecov

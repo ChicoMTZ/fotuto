@@ -12,6 +12,14 @@ vars.tests.test_models module
     :undoc-members:
     :show-inheritance:
 
+vars.tests.test_serializers module
+----------------------------------
+
+.. automodule:: vars.tests.test_serializers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 vars.tests.test_views module
 ----------------------------
 

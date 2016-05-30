@@ -8,9 +8,9 @@
 
 **Fotuto** is a web SCADA to monitor variables behaviour in real time.
 
-Data are read or written from external devices or physical sensor networks, showing it as human friendly mimics and charts. Besides achieve control actions, get alarm notifications and historical analysis.
+Data can be read or written from devices or physical sensor networks, showing it as human friendly mimics and charts. Besides achieve control actions, get alarm notifications and historical analysis.
 
-Builded as a [Django](https://www.djangoproject.com/) project and guided by [TDD](https://en.wikipedia.org/wiki/Test-driven_development), Fotuto provides an [SPA](https://en.wikipedia.org/wiki/Single-page_application) using [DRF](http://www.django-rest-framework.org), [AngularJS](https://angularjs.org/), [jQuery](https://jquery.com/), [Bootstrap](https://getbootstrap.com/), [D3.js](http://www.d3js.org/) and other libraries.
+Built as a [Django](https://www.djangoproject.com/) project and guided by [TDD](https://en.wikipedia.org/wiki/Test-driven_development), Fotuto provides an [SPA](https://en.wikipedia.org/wiki/Single-page_application) using [DRF](http://www.django-rest-framework.org), [AngularJS](https://angularjs.org/), [Angular Material](https://material.angularjs.org), [D3.js](http://www.d3js.org/) and other libraries.
 
 **CAUTION:** This is a work in progress and it is in a pre-alpha status.
 

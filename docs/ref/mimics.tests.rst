@@ -12,6 +12,14 @@ mimics.tests.test_models module
     :undoc-members:
     :show-inheritance:
 
+mimics.tests.test_serializers module
+------------------------------------
+
+.. automodule:: mimics.tests.test_serializers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 mimics.tests.test_views module
 ------------------------------
 

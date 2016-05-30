@@ -15,6 +15,7 @@ Contents:
    :maxdepth: 2
 
    api
+   developers/index
    Reference <ref/modules>
 
 

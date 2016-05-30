@@ -1,0 +1,38 @@
+<div id="ConfigWizardStepVarsView" ng-controller="VarController">
+	<h2 class="md-title">Configuration Wizard</h2>
+	<h3>Variables</h3>
+	<fieldset>
+		<legend>Add new Variable</legend>
+		<form name="VarAddForm" novalidate ng-submit="add(var)">
+			<!-- TODO: Implement advanced options to display/hide slug, model, description -->
+			<p>
+				<label for="id_device">Device</label>
+				<select name="device" id="id_device" ng-model="var.device">
+					<option value="{{ device.id }}" ng-repeat="device in devices">{{ device.name }}</option>
+				</select>
+			</p>
+			<p><label for="id_name">Name</label><input type="text" name="name" id="id_name" ng-model="var.name"/></p>
+			<p>
+				<label for="id_type">Type</label>
+
+				<select name="var_type" id="id_type" ng-model="var.var_type">
+					<option value="binary" selected="selected">Digital</option>
+					<option value="real">Analog</option>
+				</select>
+			<p><label for="id_units">Units</label><input type="text" name="units" id="id_units" ng-model="var.units"/></p>
+			<input type="submit" value="Add"/>
+		</form>
+	</fieldset>
+
+	<ul>
+		<li ng-repeat="device in devices">
+			{{ device.name }}
+			<ul>
+				<li ng-repeat="var in vars | filter: {device: device.id}">{{ var.name }}</li>
+			</ul>
+		</li>
+	</ul>
+
+	<a href="#/config/steps/1">&laquo; Back</a> |
+	<a href="#/config/steps/3">Next &raquo;</a>
+</div>
